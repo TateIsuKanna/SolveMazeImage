@@ -20,6 +20,9 @@
 		If (Control.ModifierKeys And Keys.Control) = Keys.Control Then
 			goal = New Point(e.X, e.Y)
 
+			img = New Bitmap(OpenFileDialog1.FileName)
+			PictureBox1.Image = img
+
 			Dim map(img.Height - 1, img.Width - 1) As Boolean
 			Dim visited(img.Height - 1, img.Width - 1) As visitinfo
 
@@ -32,6 +35,7 @@
 					End If
 				Next
 			Next
+
 			solve_maze(map, visited)
 		Else
 			start = New Point(e.X, e.Y)
@@ -49,7 +53,10 @@
 
 		Do While tansaku.Count > 0
 			Dim nex As Point = tansaku.Dequeue()
-			PictureBox1.CreateGraphics.FillRectangle(Brushes.Blue, nex.X, nex.Y, 1, 1)
+			If CheckBox2.Checked Then
+
+				PictureBox1.CreateGraphics.FillRectangle(Brushes.Blue, nex.X, nex.Y, 1, 1)
+			End If
 			If nex.X = goal.X AndAlso nex.Y = goal.Y Then
 				Exit Do
 			End If
@@ -106,9 +113,10 @@
 			y = visited(y, x).from.Y
 		Loop Until x = start.X AndAlso y = start.Y
 
-
-		If SaveFileDialog1.ShowDialog() = DialogResult.OK Then
-			img.Save(SaveFileDialog1.FileName, Imaging.ImageFormat.Png)
+		If CheckBox1.Checked Then
+			If SaveFileDialog1.ShowDialog() = DialogResult.OK Then
+				img.Save(SaveFileDialog1.FileName, Imaging.ImageFormat.Png)
+			End If
 		End If
 	End Sub
 End Class
