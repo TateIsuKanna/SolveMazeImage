@@ -1,4 +1,6 @@
-﻿Public Class Form1
+﻿Imports System.Runtime.InteropServices
+
+Public Class Form1
 	Private Structure visitinfo
 		Dim visited As Boolean
 		Dim from As Point
@@ -11,6 +13,20 @@
 			img = New Bitmap(OpenFileDialog1.FileName)
 			PictureBox1.Image = img
 		End If
+	End Sub
+
+	Private Sub PictureBox1_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles PictureBox1.DragEnter
+		If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+			e.Effect = DragDropEffects.Copy
+		Else
+			e.Effect = DragDropEffects.None
+		End If
+	End Sub
+
+	Private Sub PictureBox1_DragDrop(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles PictureBox1.DragDrop
+		OpenFileDialog1.FileName = CType(e.Data.GetData(DataFormats.FileDrop, False), String())(0)
+		img = New Bitmap(OpenFileDialog1.FileName)
+		PictureBox1.Image = img
 	End Sub
 
 	Dim start As Point
@@ -26,15 +42,25 @@
 			Dim map(img.Height - 1, img.Width - 1) As Boolean
 			Dim visited(img.Height - 1, img.Width - 1) As visitinfo
 
+			Dim bmpdata As Imaging.BitmapData = img.LockBits(New Rectangle(0, 0, img.Width, img.Height), Imaging.ImageLockMode.ReadOnly, Imaging.PixelFormat.Format24bppRgb)
+			Dim pixels As Byte() = New Byte(bmpdata.Stride * bmpdata.Height - 1) {}
+			Marshal.Copy(bmpdata.Scan0, pixels, 0, pixels.Length)
+
 			For y = 0 To img.Height - 1
+				Dim pos As Integer = y * bmpdata.Stride
 				For x = 0 To img.Width - 1
-					If img.GetPixel(x, y).R < 128 Then
+					If pixels(pos) < 128 Then
 						map(y, x) = True
 					Else
 						map(y, x) = False
 					End If
+					pos += 3
 				Next
 			Next
+
+
+			img.UnlockBits(bmpdata)
+
 
 			solve_maze(map, visited)
 		Else
@@ -101,6 +127,7 @@
 				End If
 			Catch ex As Exception
 			End Try
+			Application.DoEvents()
 		Loop
 
 		PictureBox1.Image = img
@@ -118,5 +145,9 @@
 				img.Save(SaveFileDialog1.FileName, Imaging.ImageFormat.Png)
 			End If
 		End If
+	End Sub
+
+	Private Sub Form1_Load(sender As Object, e As EventArgs) Handles Me.Load
+		PictureBox1.AllowDrop = True
 	End Sub
 End Class

@@ -31,8 +31,10 @@ Partial Class Form1
 		Me.Label1 = New System.Windows.Forms.Label()
 		Me.CheckBox1 = New System.Windows.Forms.CheckBox()
 		Me.CheckBox2 = New System.Windows.Forms.CheckBox()
+		Me.Panel1 = New System.Windows.Forms.Panel()
 		Me.MenuStrip1.SuspendLayout()
 		CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+		Me.Panel1.SuspendLayout()
 		Me.SuspendLayout()
 		'
 		'MenuStrip1
@@ -65,10 +67,10 @@ Partial Class Form1
 		'
 		'PictureBox1
 		'
-		Me.PictureBox1.Dock = System.Windows.Forms.DockStyle.Fill
-		Me.PictureBox1.Location = New System.Drawing.Point(0, 24)
+		Me.PictureBox1.Location = New System.Drawing.Point(0, 0)
 		Me.PictureBox1.Name = "PictureBox1"
-		Me.PictureBox1.Size = New System.Drawing.Size(713, 447)
+		Me.PictureBox1.Size = New System.Drawing.Size(335, 218)
+		Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
 		Me.PictureBox1.TabIndex = 2
 		Me.PictureBox1.TabStop = False
 		'
@@ -104,6 +106,16 @@ Partial Class Form1
 		Me.CheckBox2.Text = "探索過程を表示"
 		Me.CheckBox2.UseVisualStyleBackColor = True
 		'
+		'Panel1
+		'
+		Me.Panel1.AutoScroll = True
+		Me.Panel1.Controls.Add(Me.PictureBox1)
+		Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
+		Me.Panel1.Location = New System.Drawing.Point(0, 24)
+		Me.Panel1.Name = "Panel1"
+		Me.Panel1.Size = New System.Drawing.Size(713, 447)
+		Me.Panel1.TabIndex = 6
+		'
 		'Form1
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
@@ -112,7 +124,7 @@ Partial Class Form1
 		Me.Controls.Add(Me.CheckBox2)
 		Me.Controls.Add(Me.CheckBox1)
 		Me.Controls.Add(Me.Label1)
-		Me.Controls.Add(Me.PictureBox1)
+		Me.Controls.Add(Me.Panel1)
 		Me.Controls.Add(Me.MenuStrip1)
 		Me.MainMenuStrip = Me.MenuStrip1
 		Me.Name = "Form1"
@@ -120,6 +132,8 @@ Partial Class Form1
 		Me.MenuStrip1.ResumeLayout(False)
 		Me.MenuStrip1.PerformLayout()
 		CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+		Me.Panel1.ResumeLayout(False)
+		Me.Panel1.PerformLayout()
 		Me.ResumeLayout(False)
 		Me.PerformLayout()
 
@@ -133,4 +147,5 @@ Partial Class Form1
 	Friend WithEvents Label1 As Label
 	Friend WithEvents CheckBox1 As CheckBox
 	Friend WithEvents CheckBox2 As CheckBox
+	Friend WithEvents Panel1 As Panel
 End Class
